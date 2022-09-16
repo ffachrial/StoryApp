@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        customButton = findViewById(R.id.cust_button)
-        customEditText = findViewById(R.id.cust_edit_text)
+        customButton = findViewById(R.id.login_button)
+        customEditText = findViewById(R.id.ed_login_password)
 
         setCustomButtonEnable()
 
@@ -69,7 +69,6 @@ class CustomEditText : AppCompatEditText, View.OnTouchListener {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        hint = "Masukkan nama Anda"
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
     }
 
