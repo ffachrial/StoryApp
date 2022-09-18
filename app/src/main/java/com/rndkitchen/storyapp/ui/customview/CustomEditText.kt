@@ -1,4 +1,4 @@
-package com.rndkitchen.storyapp
+package com.rndkitchen.storyapp.ui.customview
 
 import android.content.Context
 import android.graphics.Canvas
@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
+import com.rndkitchen.storyapp.R
 
 
 class CustomEditText : AppCompatEditText, View.OnTouchListener {

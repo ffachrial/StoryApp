@@ -1,4 +1,4 @@
-package com.rndkitchen.storyapp
+package com.rndkitchen.storyapp.ui.customview
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.Gravity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
+import com.rndkitchen.storyapp.R
 
 class CustomButton : AppCompatButton {
     private lateinit var enabledBackground: Drawable
