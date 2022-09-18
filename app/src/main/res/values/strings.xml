@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">StoryApp</string>
+    <string name="hint_email">Masukan Email Anda</string>
+    <string name="hint_password">Masukkan Password Anda</string>
 </resources>
