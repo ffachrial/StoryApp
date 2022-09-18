@@ -7,7 +7,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.storyapp"
+        applicationId "com.rndkitchen.storyapp"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -29,7 +29,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    namespace 'com.example.storyapp'
+    namespace 'com.rndkitchen.storyapp'
 }
 
 dependencies {

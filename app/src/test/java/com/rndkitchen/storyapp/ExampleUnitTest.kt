@@ -1,4 +1,4 @@
-package com.example.storyapp
+package com.rndkitchen.storyapp
 
 import org.junit.Test
 

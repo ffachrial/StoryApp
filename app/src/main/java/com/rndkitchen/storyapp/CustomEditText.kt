@@ -1,4 +1,4 @@
-package com.example.storyapp
+package com.rndkitchen.storyapp
 
 import android.content.Context
 import android.graphics.Canvas
@@ -93,13 +93,17 @@ class CustomEditText : AppCompatEditText, View.OnTouchListener {
             if (isClearButtonClicked) {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close_black_24) as Drawable
+                        clearButtonImage = ContextCompat.getDrawable(context,
+                            R.drawable.ic_close_black_24
+                        ) as Drawable
                         showClearButton()
                         return true
                     }
 
                     MotionEvent.ACTION_UP -> {
-                        clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close_black_24) as Drawable
+                        clearButtonImage = ContextCompat.getDrawable(context,
+                            R.drawable.ic_close_black_24
+                        ) as Drawable
                         when {
                             text != null -> text?.clear()
                         }
