@@ -4,4 +4,6 @@
     <string name="hint_email">Masukkan Email Anda</string>
     <string name="hint_password">Masukkan Password Anda</string>
     <string name="tv_register">Register</string>
+    <string name="stories">Stories</string>
+    <string name="add_story">Add Story</string>
 </resources>

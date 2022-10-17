@@ -9,10 +9,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.rndkitchen.storyapp.data.remote.response.BaseResponse
+import com.rndkitchen.storyapp.data.remote.Result
 import com.rndkitchen.storyapp.data.remote.response.LoginResponse
 import com.rndkitchen.storyapp.databinding.ActivityLoginBinding
-import com.rndkitchen.storyapp.ui.main.MainActivity
+import com.rndkitchen.storyapp.ui.main.StoriesActivity
 import com.rndkitchen.storyapp.ui.register.RegisterActivity
 import com.rndkitchen.storyapp.util.SessionManager
 
@@ -42,16 +42,16 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.loginResult.observe(this) {
             when (it) {
-                is BaseResponse.Loading -> {
+                is Result.Loading -> {
                     showLoading()
                 }
 
-                is BaseResponse.Success -> {
+                is Result.Success -> {
                     stopLoading()
                     processLogin(it.data)
                 }
 
-                is BaseResponse.Error -> {
+                is Result.Error -> {
                     processError(it.msg)
                     stopLoading()
                 }
@@ -106,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToMain() {
-        MainActivity.start(this)
+        StoriesActivity.start(this)
     }
 
     private fun showToast(msg: String) {
