@@ -1,19 +1,15 @@
 package com.rndkitchen.storyapp.ui.main
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.rndkitchen.storyapp.data.local.entity.StoriesEntity
+import com.rndkitchen.storyapp.data.remote.response.DataStories
 import com.rndkitchen.storyapp.databinding.StoryItemBinding
-import com.rndkitchen.storyapp.ui.main.StoriesAdapter.StoriesViewHolder
 
-class StoriesAdapter(): ListAdapter<StoriesEntity, StoriesViewHolder>(DIFF_CALLBACK) {
+class StoriesAdapter(private val storyList: List<DataStories>): RecyclerView.Adapter<StoriesAdapter.StoriesViewHolder>() {
     inner class StoriesViewHolder(private val binding: StoryItemBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(story: StoriesEntity) {
+        fun bind(story: DataStories) {
             with(binding) {
                 tvName.text = story.name
                 tvCreatedAt.text = story.createdAt
@@ -26,29 +22,16 @@ class StoriesAdapter(): ListAdapter<StoriesEntity, StoriesViewHolder>(DIFF_CALLB
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoriesAdapter.StoriesViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoriesViewHolder {
         val binding = StoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return StoriesViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: StoriesViewHolder, position: Int) {
-        val stories = getItem(position)
-        holder.bind(stories)
+    override fun onBindViewHolder(holder: StoriesAdapter.StoriesViewHolder, position: Int) {
+        storyList[position].let { story ->
+            holder.bind(story)
+        }
     }
 
-//    override fun getItemCount(): Int = 0
-
-    companion object {
-        val DIFF_CALLBACK: DiffUtil.ItemCallback<StoriesEntity> =
-            object : DiffUtil.ItemCallback<StoriesEntity>() {
-                override fun areItemsTheSame(oldUser: StoriesEntity, newUser: StoriesEntity): Boolean {
-                    return oldUser.name == newUser.name
-                }
-
-                @SuppressLint("DiffUtilEquals")
-                override fun areContentsTheSame(oldUser: StoriesEntity, newUser: StoriesEntity): Boolean {
-                    return oldUser == newUser
-                }
-            }
-    }
+    override fun getItemCount(): Int = storyList.size
 }

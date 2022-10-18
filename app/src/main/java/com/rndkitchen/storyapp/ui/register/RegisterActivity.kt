@@ -5,14 +5,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.activity.viewModels
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.rndkitchen.storyapp.data.remote.RegisterBody
+import com.rndkitchen.storyapp.data.remote.Result2
 import com.rndkitchen.storyapp.databinding.ActivityRegisterBinding
 import com.rndkitchen.storyapp.ui.login.LoginActivity
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var activityRegisterBinding: ActivityRegisterBinding
-    private val viewModel : RegisterViewModel by viewModels()
+    private val binding get() = activityRegisterBinding
 
     companion object {
         fun start(context: Context) {
@@ -42,14 +46,46 @@ class RegisterActivity : AppCompatActivity() {
                 // Do nothing
             }
         })
-
-        //customButton.setOnClickListener { Toast.makeText(this@RegisterActivity, customEditText.text, Toast.LENGTH_SHORT).show() }
     }
 
     private fun init() {
-        activityRegisterBinding.registerButton.setOnClickListener {
+        binding.registerButton.setOnClickListener {
+            val nameUser = activityRegisterBinding.edRegisterName.text.toString()
+            val emailUser = activityRegisterBinding.edRegisterEmail.text.toString()
+            val passUser = activityRegisterBinding.edRegisterPassword.text.toString()
+            val request = RegisterBody(nameUser, emailUser, passUser)
+
+            userRegister(request)
+        }
+
+        binding.tvLogin.setOnClickListener {
             LoginActivity.start(this)
         }
+    }
+
+    private fun userRegister(regUser: RegisterBody) {
+        val registerViewModel = obtainViewModel(this@RegisterActivity)
+
+        registerViewModel.userRegister(regUser).observe(this) { response ->
+            when(response) {
+                is Result2.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is Result2.Success -> {
+                    LoginActivity.start(this)
+                    Toast.makeText(this, "Register Success", Toast.LENGTH_SHORT).show()
+                }
+                is Result2.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, response.error, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun obtainViewModel(activity: AppCompatActivity) : RegisterViewModel {
+        val factory = RegisterViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory)[RegisterViewModel::class.java]
     }
 
     private fun setCustomButtonEnable() {

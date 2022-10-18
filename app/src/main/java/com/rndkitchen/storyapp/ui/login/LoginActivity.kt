@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.rndkitchen.storyapp.data.remote.Result
 import com.rndkitchen.storyapp.data.remote.response.LoginResponse
 import com.rndkitchen.storyapp.databinding.ActivityLoginBinding
-import com.rndkitchen.storyapp.ui.main.StoriesActivity
+import com.rndkitchen.storyapp.ui.main.MainActivity
 import com.rndkitchen.storyapp.ui.register.RegisterActivity
 import com.rndkitchen.storyapp.util.SessionManager
 
@@ -106,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToMain() {
-        StoriesActivity.start(this)
+        MainActivity.start(this)
     }
 
     private fun showToast(msg: String) {

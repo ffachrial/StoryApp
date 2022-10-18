@@ -29,7 +29,7 @@ class StoriesFragment : Fragment() {
             factory
         }
 
-        val storiesAdapter = StoriesAdapter()
+        val storiesAdapter = FragmentStoriesAdapter()
 
 //        if (tabName == TAB_STORIES) {
             val token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXd0ckllejZlSWZWb1dvV3EiLCJpYXQiOjE2NjU4MDU2NzR9.K5ge2WSHJlT4oZ1AoeYudKlXJxBBygvkA2nPQKrJ9dA"
