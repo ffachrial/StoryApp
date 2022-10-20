@@ -9,11 +9,14 @@ import com.rndkitchen.storyapp.data.local.room.StoriesDao
 import com.rndkitchen.storyapp.data.remote.RegisterBody
 import com.rndkitchen.storyapp.data.remote.Result2
 import com.rndkitchen.storyapp.data.remote.response.StoriesResponse
+import com.rndkitchen.storyapp.data.remote.response.PutStoryResponse
 import com.rndkitchen.storyapp.data.remote.retrofit.StoryService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 
 class StoriesRepository private constructor(
@@ -46,7 +49,7 @@ class StoriesRepository private constructor(
             }
         emitSource(localData)
     }
-    
+
     suspend fun userRegister(authBody: RegisterBody): Flow<Result2<Response<StoriesResponse>>> {
         return flow {
             try {
@@ -62,6 +65,22 @@ class StoriesRepository private constructor(
                 emit(Result2.Error(ex.message.toString()))
             }
         }.flowOn(Dispatchers.IO)
+    }
+
+    fun putStory(token: String, file: MultipartBody.Part, description: RequestBody): Flow<Result2<PutStoryResponse>> {
+        return flow {
+            try {
+                emit(Result2.Loading)
+                val response = storyService.putStory(token, file, description)
+                if (!response.error) {
+                    emit(Result2.Success(response))
+                } else {
+                    emit(Result2.Error(response.message))
+                }
+            } catch (ex: Exception) {
+                emit(Result2.Error(ex.message.toString()))
+            }
+        }
     }
 
     companion object {

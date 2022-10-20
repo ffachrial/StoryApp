@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/img_story"
+            android:id="@+id/iv_item_photo"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_alignParentStart="true"
@@ -40,7 +40,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/img_story"
+            app:layout_constraintStart_toEndOf="@+id/iv_item_photo"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Name" />
 

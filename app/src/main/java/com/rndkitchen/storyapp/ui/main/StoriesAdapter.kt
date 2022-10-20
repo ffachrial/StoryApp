@@ -1,5 +1,6 @@
 package com.rndkitchen.storyapp.ui.main
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -14,10 +15,16 @@ class StoriesAdapter(private val storyList: List<DataStories>): RecyclerView.Ada
                 tvName.text = story.name
                 tvCreatedAt.text = story.createdAt
 
-                Glide.with(imgStory.context)
+                Glide.with(ivItemPhoto.context)
                     .load(story.photoUrl)
                     .centerCrop()
-                    .into(imgStory)
+                    .into(ivItemPhoto)
+            }
+
+            itemView.setOnClickListener {
+                val intent = Intent(it.context, StoryDetailActivity::class.java)
+                intent.putExtra("extra_detail", story)
+                itemView.context.startActivity(intent)
             }
         }
     }

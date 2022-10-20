@@ -1,6 +1,8 @@
 package com.rndkitchen.storyapp.data.remote.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class StoriesResponse(
     @SerializedName("error")
@@ -11,6 +13,7 @@ data class StoriesResponse(
     val listStory: List<DataStories>
 )
 
+@Parcelize
 data class DataStories(
     @SerializedName("id")
     val id: String,
@@ -22,4 +25,4 @@ data class DataStories(
     val photoUrl: String,
     @SerializedName("createdAt")
     val createdAt: String
-)
+): Parcelable

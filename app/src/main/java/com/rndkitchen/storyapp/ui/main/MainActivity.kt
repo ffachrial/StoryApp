@@ -12,6 +12,7 @@ import com.rndkitchen.storyapp.data.remote.Result2
 import com.rndkitchen.storyapp.data.remote.response.DataStories
 import com.rndkitchen.storyapp.databinding.ActivityMainBinding
 import com.rndkitchen.storyapp.ui.ViewModelFactory
+import com.rndkitchen.storyapp.ui.login.LoginActivity
 import com.rndkitchen.storyapp.util.SessionManager
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +31,19 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
         val token = SessionManager.getToken(this)
+
+        binding.actionLogout.setOnClickListener {
+            val pref = SessionManager
+            pref.clearData(this)
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+            finish()
+        }
+
+        binding.addStory.setOnClickListener {
+            StoryAddActivity.start(this)
+        }
 
         getStories("Bearer $token")
         binding.rvStories.layoutManager = LinearLayoutManager(this)

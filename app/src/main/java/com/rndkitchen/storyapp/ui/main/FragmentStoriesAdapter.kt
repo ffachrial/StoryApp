@@ -18,10 +18,10 @@ class FragmentStoriesAdapter(): ListAdapter<StoriesEntity, StoriesViewHolder>(DI
                 tvName.text = story.name
                 tvCreatedAt.text = story.createdAt
 
-                Glide.with(imgStory.context)
+                Glide.with(ivItemPhoto.context)
                     .load(story.photoUrl)
                     .centerCrop()
-                    .into(imgStory)
+                    .into(ivItemPhoto)
             }
         }
     }
