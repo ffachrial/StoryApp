@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.rndkitchen.storyapp.data.remote.RegisterBody
-import com.rndkitchen.storyapp.data.remote.Result2
+import com.rndkitchen.storyapp.data.remote.Result
 import com.rndkitchen.storyapp.databinding.ActivityRegisterBinding
 import com.rndkitchen.storyapp.ui.login.LoginActivity
 
@@ -68,14 +68,14 @@ class RegisterActivity : AppCompatActivity() {
 
         registerViewModel.userRegister(regUser).observe(this) { response ->
             when(response) {
-                is Result2.Loading -> {
+                is Result.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
-                is Result2.Success -> {
+                is Result.Success -> {
                     LoginActivity.start(this)
                     Toast.makeText(this, "Register Success", Toast.LENGTH_SHORT).show()
                 }
-                is Result2.Error -> {
+                is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
                     Toast.makeText(this, response.error, Toast.LENGTH_SHORT).show()
                 }

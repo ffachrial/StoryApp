@@ -10,20 +10,7 @@ import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
-interface ApiService {
-    @POST("login")
-    suspend fun loginUser(
-        @Body loginRequest: LoginRequest
-    ): Response<LoginResponse>
-
-    companion object {
-        fun getApi(): ApiService? {
-            return ApiConfig.client?.create(ApiService::class.java)
-        }
-    }
-}
-
-interface  StoryService {
+interface  ApiService {
     @GET("stories")
     suspend fun getStories(
         @Header("Authorization") token: String

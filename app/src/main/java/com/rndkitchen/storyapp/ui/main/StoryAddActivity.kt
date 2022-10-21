@@ -15,7 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import com.rndkitchen.storyapp.data.remote.Result2
+import com.rndkitchen.storyapp.data.remote.Result
 import com.rndkitchen.storyapp.databinding.ActivityStoryAddBinding
 import com.rndkitchen.storyapp.ui.ViewModelFactory
 import com.rndkitchen.storyapp.util.SessionManager
@@ -93,15 +93,15 @@ class StoryAddActivity : AppCompatActivity() {
 
             storiesViewModel.putStory("Bearer $token", imageMultiPart, description).observe(this) { response ->
                 when(response) {
-                    is Result2.Loading -> {
+                    is Result.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
                     }
-                    is Result2.Success -> {
+                    is Result.Success -> {
                         binding.progressBar.visibility = View.GONE
                         Toast.makeText(this@StoryAddActivity, "Upload Story Success", Toast.LENGTH_SHORT).show()
                         finish()
                     }
-                    is Result2.Error -> {
+                    is Result.Error -> {
                         binding.progressBar.visibility = View.GONE
                         Toast.makeText(this@StoryAddActivity, "Upload Story Failed " + response.error, Toast.LENGTH_SHORT).show()
                     }
@@ -149,13 +149,12 @@ class StoryAddActivity : AppCompatActivity() {
         }
     }
 
-//    private lateinit var currentPhotoPath: String
     private val launcherIntentCamera = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == CAMERA_X_RESULT) {
             val myFile = it.data?.getSerializableExtra("picture") as File
-//            val myFile = File(currentPhotoPath)
+
             storyUpload = myFile
             val result =  BitmapFactory.decodeFile(myFile.path)
 //            Silakan gunakan kode ini jika mengalami perubahan rotasi

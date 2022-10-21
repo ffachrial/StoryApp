@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.rndkitchen.storyapp.data.remote.LoginRequest
-import com.rndkitchen.storyapp.data.remote.Result2
+import com.rndkitchen.storyapp.data.remote.Result
 import com.rndkitchen.storyapp.databinding.ActivityLoginBinding
 import com.rndkitchen.storyapp.ui.main.MainActivity
 import com.rndkitchen.storyapp.ui.register.RegisterActivity
@@ -18,7 +18,6 @@ import com.rndkitchen.storyapp.util.SessionManager
 
 class   LoginActivity : AppCompatActivity() {
     private lateinit var activityLoginBinding: ActivityLoginBinding
-//    private val viewModel : LoginViewModel by viewModels()
 
     companion object {
         fun start(context: Context) {
@@ -39,29 +38,7 @@ class   LoginActivity : AppCompatActivity() {
 
         init()
         setCustomButtonEnable()
-/*
-        viewModel.loginResult.observe(this) {
-            when (it) {
-                is Result.Loading -> {
-                    showLoading()
-                }
 
-                is Result.Success -> {
-                    stopLoading()
-                    processLogin(it.data)
-                }
-
-                is Result.Error -> {
-                    processError(it.msg)
-                    stopLoading()
-                }
-                else -> {
-                    stopLoading()
-                }
-            }
-        }
-
-*/
         activityLoginBinding.edLoginPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
                 // Do nothing
@@ -91,26 +68,16 @@ class   LoginActivity : AppCompatActivity() {
         val result = activityLoginBinding.edLoginPassword.text
         activityLoginBinding.loginButton.isEnabled = (result != null) && result.toString().isNotEmpty()
     }
-/*
-    private fun processLogin(data: LoginResponse?) {
-        showToast("Success:" + data?.message)
-        if (!data?.loginResult?.token.isNullOrEmpty()) {
-            data?.loginResult?.token?.let {
-                SessionManager.saveAuthToken(this, it)
-            }
-            navigateToMain()
-        }
-    }
-*/
+
     private fun logInUser(loginRequest: LoginRequest) {
         val logUserViewModel = obtainViewModel(this@LoginActivity)
 
         logUserViewModel.userLogIn(loginRequest).observe(this) { response ->
             when (response) {
-                is Result2.Loading -> {
+                is Result.Loading -> {
                     showLoading()
                 }
-                is Result2.Success -> {
+                is Result.Success -> {
                     stopLoading()
                     if (response.data.loginResult.token.isNotEmpty()) {
                         response.data.loginResult.token.let { token ->
@@ -119,7 +86,7 @@ class   LoginActivity : AppCompatActivity() {
                         navigateToMain()
                     }
                 }
-                is Result2.Error -> {
+                is Result.Error -> {
                     stopLoading()
                     processError(response.error)
                 }
@@ -130,7 +97,6 @@ class   LoginActivity : AppCompatActivity() {
     private fun doLogin() {
         val email = activityLoginBinding.edLoginEmail.text.toString()
         val pwd = activityLoginBinding.edLoginPassword.text.toString()
-//        viewModel.loginUser(email = email, pwd = pwd)
         val request = LoginRequest(email, pwd)
 
         logInUser(request)

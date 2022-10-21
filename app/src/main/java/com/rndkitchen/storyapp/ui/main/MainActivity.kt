@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rndkitchen.storyapp.data.remote.Result2
+import com.rndkitchen.storyapp.data.remote.Result
 import com.rndkitchen.storyapp.data.remote.response.DataStories
 import com.rndkitchen.storyapp.databinding.ActivityMainBinding
 import com.rndkitchen.storyapp.ui.ViewModelFactory
@@ -54,10 +54,10 @@ class MainActivity : AppCompatActivity() {
 
         storiesViewModel.getStories(token).observe(this) { response ->
             when (response) {
-                is Result2.Loading -> {
+                is Result.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
-                is Result2.Success -> {
+                is Result.Success -> {
                     val stories = response.data
                     val dataStories = stories.map {
                         DataStories(
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                     binding.rvStories.adapter = adapter
                     binding.progressBar.visibility = View.GONE
                 }
-                is Result2.Error -> {
+                is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
                     Toast.makeText(this, response.error, Toast.LENGTH_SHORT).show()
                 }
