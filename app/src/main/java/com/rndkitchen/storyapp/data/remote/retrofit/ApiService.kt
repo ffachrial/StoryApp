@@ -41,4 +41,9 @@ interface  StoryService {
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody
     ): PutStoryResponse
+
+    @POST("login")
+    suspend fun logInUser(
+        @Body logInBody: LoginRequest
+    ): LoginResponse
 }

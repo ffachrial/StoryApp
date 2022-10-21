@@ -12,8 +12,8 @@
         android:id="@+id/iv_detail_photo"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:transitionName="thumbnail"
-        android:contentDescription="Photo Detail"
+        android:transitionName="profile"
+        android:contentDescription="@string/photo_detail"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textSize="24sp"
-        android:transitionName="title"/>
+        android:transitionName="name"/>
 
     <TextView
         android:id="@+id/tv_detail_description"

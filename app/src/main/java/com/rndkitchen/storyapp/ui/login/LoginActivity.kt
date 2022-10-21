@@ -7,18 +7,18 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.rndkitchen.storyapp.data.remote.Result
-import com.rndkitchen.storyapp.data.remote.response.LoginResponse
+import androidx.lifecycle.ViewModelProvider
+import com.rndkitchen.storyapp.data.remote.LoginRequest
+import com.rndkitchen.storyapp.data.remote.Result2
 import com.rndkitchen.storyapp.databinding.ActivityLoginBinding
 import com.rndkitchen.storyapp.ui.main.MainActivity
 import com.rndkitchen.storyapp.ui.register.RegisterActivity
 import com.rndkitchen.storyapp.util.SessionManager
 
-class LoginActivity : AppCompatActivity() {
+class   LoginActivity : AppCompatActivity() {
     private lateinit var activityLoginBinding: ActivityLoginBinding
-    private val viewModel : LoginViewModel by viewModels()
+//    private val viewModel : LoginViewModel by viewModels()
 
     companion object {
         fun start(context: Context) {
@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
 
         init()
         setCustomButtonEnable()
-
+/*
         viewModel.loginResult.observe(this) {
             when (it) {
                 is Result.Loading -> {
@@ -61,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+*/
         activityLoginBinding.edLoginPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
                 // Do nothing
@@ -90,19 +91,49 @@ class LoginActivity : AppCompatActivity() {
         val result = activityLoginBinding.edLoginPassword.text
         activityLoginBinding.loginButton.isEnabled = (result != null) && result.toString().isNotEmpty()
     }
-
+/*
     private fun processLogin(data: LoginResponse?) {
         showToast("Success:" + data?.message)
         if (!data?.loginResult?.token.isNullOrEmpty()) {
-            data?.loginResult?.token?.let { SessionManager.saveAuthToken(this, it) }
+            data?.loginResult?.token?.let {
+                SessionManager.saveAuthToken(this, it)
+            }
             navigateToMain()
+        }
+    }
+*/
+    private fun logInUser(loginRequest: LoginRequest) {
+        val logUserViewModel = obtainViewModel(this@LoginActivity)
+
+        logUserViewModel.userLogIn(loginRequest).observe(this) { response ->
+            when (response) {
+                is Result2.Loading -> {
+                    showLoading()
+                }
+                is Result2.Success -> {
+                    stopLoading()
+                    if (response.data.loginResult.token.isNotEmpty()) {
+                        response.data.loginResult.token.let { token ->
+                            SessionManager.saveAuthToken(this, token)
+                        }
+                        navigateToMain()
+                    }
+                }
+                is Result2.Error -> {
+                    stopLoading()
+                    processError(response.error)
+                }
+            }
         }
     }
 
     private fun doLogin() {
         val email = activityLoginBinding.edLoginEmail.text.toString()
         val pwd = activityLoginBinding.edLoginPassword.text.toString()
-        viewModel.loginUser(email = email, pwd = pwd)
+//        viewModel.loginUser(email = email, pwd = pwd)
+        val request = LoginRequest(email, pwd)
+
+        logInUser(request)
     }
 
     private fun navigateToMain() {
@@ -114,7 +145,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun processError(msg: String?) {
-        showToast("Error:$msg")
+        showToast("Error: $msg")
     }
 
     private fun showLoading() {
@@ -123,5 +154,10 @@ class LoginActivity : AppCompatActivity() {
 
     private fun stopLoading() {
         activityLoginBinding.progressBar.visibility = View.GONE
+    }
+
+    private fun obtainViewModel(activity: AppCompatActivity) : LogUserViewModel {
+        val factory = LogUserViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory)[LogUserViewModel::class.java]
     }
 }

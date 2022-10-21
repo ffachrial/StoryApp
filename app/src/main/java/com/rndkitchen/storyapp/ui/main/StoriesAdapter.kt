@@ -1,8 +1,11 @@
 package com.rndkitchen.storyapp.ui.main
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rndkitchen.storyapp.data.remote.response.DataStories
@@ -24,7 +27,15 @@ class StoriesAdapter(private val storyList: List<DataStories>): RecyclerView.Ada
             itemView.setOnClickListener {
                 val intent = Intent(it.context, StoryDetailActivity::class.java)
                 intent.putExtra("extra_detail", story)
-                itemView.context.startActivity(intent)
+
+                val optionsCompat: ActivityOptionsCompat =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        itemView.context as Activity,
+                        Pair(binding.ivItemPhoto, "profile"),
+                        Pair(binding.tvName, "name"),
+                        Pair(binding.tvCreatedAt, "description")
+                    )
+                itemView.context.startActivity(intent, optionsCompat.toBundle())
             }
         }
     }

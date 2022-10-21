@@ -6,8 +6,10 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import com.rndkitchen.storyapp.data.local.entity.StoriesEntity
 import com.rndkitchen.storyapp.data.local.room.StoriesDao
+import com.rndkitchen.storyapp.data.remote.LoginRequest
 import com.rndkitchen.storyapp.data.remote.RegisterBody
 import com.rndkitchen.storyapp.data.remote.Result2
+import com.rndkitchen.storyapp.data.remote.response.LoginResponse
 import com.rndkitchen.storyapp.data.remote.response.StoriesResponse
 import com.rndkitchen.storyapp.data.remote.response.PutStoryResponse
 import com.rndkitchen.storyapp.data.remote.retrofit.StoryService
@@ -72,6 +74,22 @@ class StoriesRepository private constructor(
             try {
                 emit(Result2.Loading)
                 val response = storyService.putStory(token, file, description)
+                if (!response.error) {
+                    emit(Result2.Success(response))
+                } else {
+                    emit(Result2.Error(response.message))
+                }
+            } catch (ex: Exception) {
+                emit(Result2.Error(ex.message.toString()))
+            }
+        }
+    }
+
+    suspend fun userLogIn(logInBody: LoginRequest): Flow<Result2<LoginResponse>> {
+        return flow {
+            try {
+                emit(Result2.Loading)
+                val response = storyService.logInUser(logInBody)
                 if (!response.error) {
                     emit(Result2.Success(response))
                 } else {
