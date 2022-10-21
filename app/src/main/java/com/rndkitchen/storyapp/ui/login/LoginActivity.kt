@@ -18,6 +18,7 @@ import com.rndkitchen.storyapp.util.SessionManager
 
 class   LoginActivity : AppCompatActivity() {
     private lateinit var activityLoginBinding: ActivityLoginBinding
+    private val binding get() = activityLoginBinding
 
     companion object {
         fun start(context: Context) {
@@ -39,13 +40,17 @@ class   LoginActivity : AppCompatActivity() {
         init()
         setCustomButtonEnable()
 
-        activityLoginBinding.edLoginPassword.addTextChangedListener(object : TextWatcher {
+        binding.edLoginPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
                 // Do nothing
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                setCustomButtonEnable()
+                if (count >= 6) {
+                    setCustomButtonEnable()
+                } else {
+                    binding.edLoginPassword.error = "Password less than 6 chars"
+                }
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -55,18 +60,18 @@ class   LoginActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        activityLoginBinding.loginButton.setOnClickListener {
+        binding.loginButton.setOnClickListener {
             doLogin()
         }
 
-        activityLoginBinding.tvRegister.setOnClickListener {
+        binding.tvRegister.setOnClickListener {
             RegisterActivity.start(this)
         }
     }
 
     private fun setCustomButtonEnable() {
-        val result = activityLoginBinding.edLoginPassword.text
-        activityLoginBinding.loginButton.isEnabled = (result != null) && result.toString().isNotEmpty()
+        val result = binding.edLoginPassword.text
+        binding.loginButton.isEnabled = (result != null) && result.toString().isNotEmpty()
     }
 
     private fun logInUser(loginRequest: LoginRequest) {
@@ -95,8 +100,8 @@ class   LoginActivity : AppCompatActivity() {
     }
 
     private fun doLogin() {
-        val email = activityLoginBinding.edLoginEmail.text.toString()
-        val pwd = activityLoginBinding.edLoginPassword.text.toString()
+        val email = binding.edLoginEmail.text.toString()
+        val pwd = binding.edLoginPassword.text.toString()
         val request = LoginRequest(email, pwd)
 
         logInUser(request)
@@ -115,11 +120,11 @@ class   LoginActivity : AppCompatActivity() {
     }
 
     private fun showLoading() {
-        activityLoginBinding.progressBar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun stopLoading() {
-        activityLoginBinding.progressBar.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
     }
 
     private fun obtainViewModel(activity: AppCompatActivity) : LogUserViewModel {
