@@ -18,6 +18,7 @@ import com.rndkitchen.storyapp.util.SessionManager
 class MainActivity : AppCompatActivity() {
     private lateinit var activityMainBinding: ActivityMainBinding
     private val binding get() = activityMainBinding
+    private var token: String? = null
 
     companion object {
         fun start(context: Context) {
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
-        val token = SessionManager.getToken(this)
+        token = SessionManager.getToken(this)
 
         binding.actionLogout.setOnClickListener {
             val pref = SessionManager
@@ -83,5 +84,10 @@ class MainActivity : AppCompatActivity() {
     private fun obtainViewModel(activity: AppCompatActivity) : StoriesViewModel {
         val factory = ViewModelFactory.getInstance(activity.application)
         return ViewModelProvider(activity, factory)[StoriesViewModel::class.java]
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getStories("Bearer $token")
     }
 }

@@ -109,6 +109,7 @@ class   LoginActivity : AppCompatActivity() {
 
     private fun navigateToMain() {
         MainActivity.start(this)
+        finish()
     }
 
     private fun showToast(msg: String) {

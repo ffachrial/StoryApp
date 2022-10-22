@@ -80,7 +80,8 @@ class StoryAddActivity : AppCompatActivity() {
     private fun uploadImage() {
         if (storyUpload != null) {
             val file = reduceFileImage(storyUpload as File)
-            val description = binding.edAddDescription.toString().toRequestBody("text/plain".toMediaType())
+            val imgDesc = binding.edAddDescription.text
+            val description = imgDesc.toString().toRequestBody("text/plain".toMediaType())
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultiPart = MultipartBody.Part.createFormData(
                 "photo",
@@ -157,11 +158,6 @@ class StoryAddActivity : AppCompatActivity() {
 
             storyUpload = myFile
             val result =  BitmapFactory.decodeFile(myFile.path)
-//            Silakan gunakan kode ini jika mengalami perubahan rotasi
-//            val result = rotateBitmap(
-//                BitmapFactory.decodeFile(myFile.path),
-//                true
-//            )
 
             binding.imgPreview.setImageBitmap(result)
         }

@@ -16,6 +16,7 @@ class StoriesAdapter(private val storyList: List<DataStories>): RecyclerView.Ada
         fun bind(story: DataStories) {
             with(binding) {
                 tvName.text = story.name
+                tvDetailDescription.text = story.description
                 tvCreatedAt.text = story.createdAt
 
                 Glide.with(ivItemPhoto.context)
@@ -33,7 +34,7 @@ class StoriesAdapter(private val storyList: List<DataStories>): RecyclerView.Ada
                         itemView.context as Activity,
                         Pair(binding.ivItemPhoto, "profile"),
                         Pair(binding.tvName, "name"),
-                        Pair(binding.tvCreatedAt, "description")
+                        Pair(binding.tvDetailDescription, "description")
                     )
                 itemView.context.startActivity(intent, optionsCompat.toBundle())
             }
