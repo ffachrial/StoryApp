@@ -40,21 +40,17 @@ class   LoginActivity : AppCompatActivity() {
         init()
         setCustomButtonEnable()
 
-        binding.edLoginPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // Do nothing
+        binding.edLoginPassword2.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
             }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (count >= 6) {
-                    setCustomButtonEnable()
-                } else {
-                    binding.edLoginPassword.error = "Password less than 6 chars"
-                }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                setCustomButtonEnable()
             }
 
-            override fun afterTextChanged(s: Editable) {
-                // Do nothing
+            override fun afterTextChanged(p0: Editable?) {
+
             }
         })
     }
@@ -70,7 +66,7 @@ class   LoginActivity : AppCompatActivity() {
     }
 
     private fun setCustomButtonEnable() {
-        val result = binding.edLoginPassword.text
+        val result = binding.edLoginPassword2.text
         binding.loginButton.isEnabled = (result != null) && result.toString().isNotEmpty()
     }
 
@@ -101,7 +97,7 @@ class   LoginActivity : AppCompatActivity() {
 
     private fun doLogin() {
         val email = binding.edLoginEmail.text.toString()
-        val pwd = binding.edLoginPassword.text.toString()
+        val pwd = binding.edLoginPassword2.text.toString()
         val request = LoginRequest(email, pwd)
 
         logInUser(request)

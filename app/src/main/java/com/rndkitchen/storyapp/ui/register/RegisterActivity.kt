@@ -33,22 +33,19 @@ class RegisterActivity : AppCompatActivity() {
         init()
         setCustomButtonEnable()
 
-        binding.edRegisterPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // Do nothing
+        binding.edRegisterPassword2.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
             }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (count >= 6) {
-                    setCustomButtonEnable()
-                } else {
-                    binding.edRegisterPassword.error = "Password less than 6 chars"
-                }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                setCustomButtonEnable()
             }
 
-            override fun afterTextChanged(s: Editable) {
-                // Do nothing
+            override fun afterTextChanged(p0: Editable?) {
+
             }
+
         })
     }
 
@@ -56,7 +53,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.registerButton.setOnClickListener {
             val nameUser = binding.edRegisterName.text.toString()
             val emailUser = binding.edRegisterEmail.text.toString()
-            val passUser = binding.edRegisterPassword.text.toString()
+            val passUser = binding.edRegisterPassword2.text.toString()
             val request = RegisterBody(nameUser, emailUser, passUser)
 
             userRegister(request)
@@ -93,7 +90,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setCustomButtonEnable() {
-        val result = binding.edRegisterPassword.text
+        val result = binding.edRegisterPassword2.text
         binding.registerButton.isEnabled = (result != null) && result.toString().isNotEmpty()
     }
 
