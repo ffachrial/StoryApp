@@ -6,9 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.rndkitchen.storyapp.data.local.entity.StoriesEntity
 
-@Database(entities = [StoriesEntity::class], version = 1, exportSchema = false)
+@Database(entities = [StoriesEntity::class, RemoteKeys::class], version = 1, exportSchema = false)
 abstract class StoriesDatabase : RoomDatabase() {
     abstract fun storiesDao(): StoriesDao
+    abstract fun remoteKeysDao(): RemoteKeysDao
 
     companion object {
         @Volatile

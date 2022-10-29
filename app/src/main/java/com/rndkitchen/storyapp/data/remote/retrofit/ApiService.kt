@@ -13,7 +13,10 @@ import retrofit2.http.*
 interface  ApiService {
     @GET("stories")
     suspend fun getStories(
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Query("location") location: Int = 0,
+        @Query("page") page: Int? = null,
+        @Query("size") size: Int? = null
     ): StoriesResponse
 
     @POST("register")

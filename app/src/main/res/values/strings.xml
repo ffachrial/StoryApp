@@ -8,4 +8,11 @@
     <string name="stories">Stories</string>
     <string name="add_story">Add Story</string>
     <string name="photo_detail">Photo Detail</string>
+    <string name="normal_type">Normal</string>
+    <string name="satellite_type">Satellite</string>
+    <string name="terrain_type">Terrain</string>
+    <string name="hybrid_type">Hybrid</string>
+    <string name="cd_button_add_story">Button Add Story</string>
+    <string name="cd_button_logout">Button LogOut</string>
+    <string name="cd_button_map">Button Map</string>
 </resources>

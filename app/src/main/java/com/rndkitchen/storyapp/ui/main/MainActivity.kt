@@ -42,6 +42,10 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.openMap.setOnClickListener {
+            MapsActivity.start(this)
+        }
+
         binding.addStory.setOnClickListener {
             StoryAddActivity.start(this)
         }
