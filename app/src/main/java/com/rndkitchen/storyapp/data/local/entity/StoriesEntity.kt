@@ -19,6 +19,12 @@ class StoriesEntity(
     @field:ColumnInfo(name = "photoUrl")
     val photoUrl: String,
 
+    @field:ColumnInfo(name = "lat")
+    val lat: Double,
+
+    @field:ColumnInfo(name = "lon")
+    val lon: Double,
+
     @field:ColumnInfo(name = "createdAt")
     val createdAt: String
 )

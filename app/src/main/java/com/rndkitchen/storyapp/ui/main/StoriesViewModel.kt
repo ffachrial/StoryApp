@@ -23,4 +23,6 @@ class StoriesViewModel(private val storiesRepository: StoriesRepository) : ViewM
         }
         return result
     }
+
+    fun getCompletedStories(token: String, location: Int) = storiesRepository.getStoriesMap(token, location)
 }

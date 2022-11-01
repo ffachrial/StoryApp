@@ -14,6 +14,10 @@ data class StoryResponse(
     val description: String,
     @SerializedName("photoUrl")
     val photoUrl: String,
+    @SerializedName("lat")
+    val lat: Double,
+    @SerializedName("lon")
+    val lon: Double,
     @SerializedName("createdAt")
     val createdAt: String
 ) : Parcelable

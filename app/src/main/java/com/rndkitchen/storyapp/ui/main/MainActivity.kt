@@ -70,6 +70,8 @@ class MainActivity : AppCompatActivity() {
                             name = it.name,
                             description = it.description,
                             photoUrl = it.photoUrl,
+                            lat = it.lat,
+                            lon = it.lon,
                             createdAt = it.createdAt
                         )
                     }

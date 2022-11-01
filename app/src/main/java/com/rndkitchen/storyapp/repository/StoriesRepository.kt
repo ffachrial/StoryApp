@@ -25,6 +25,35 @@ class StoriesRepository private constructor(
     private val storyService: ApiService,
     private val storiesDao: StoriesDao
     ){
+    fun getStoriesMap(token: String, location: Int): LiveData<Result<List<StoriesEntity>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = storyService.getStories(token, location)
+            val stories = response.listStory
+            val listStories = stories.map { story ->
+                StoriesEntity(
+                    story.id,
+                    story.name,
+                    story.description,
+                    story.photoUrl,
+                    story.lat,
+                    story.lon,
+                    story.createdAt
+                )
+            }
+            storiesDao.deleteStories()
+            storiesDao.insertStory(listStories)
+        } catch (e: Exception) {
+            Log.d("StoriesRepository", "getStories: ${e.message.toString()} ")
+            emit(Result.Error(e.message.toString()))
+        }
+        val localData: LiveData<Result<List<StoriesEntity>>> =
+            storiesDao.getStories().map {
+                Result.Success(it)
+            }
+        emitSource(localData)
+    }
+
     fun getStories(token: String): LiveData<Result<List<StoriesEntity>>> = liveData {
         emit(Result.Loading)
         try {
@@ -36,6 +65,8 @@ class StoriesRepository private constructor(
                     story.name,
                     story.description,
                     story.photoUrl,
+                    story.lat,
+                    story.lon,
                     story.createdAt
                 )
             }
