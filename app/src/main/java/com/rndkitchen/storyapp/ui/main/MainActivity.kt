@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rndkitchen.storyapp.data.remote.Result
-import com.rndkitchen.storyapp.data.remote.response.DataStories
+import com.rndkitchen.storyapp.data.remote.response.StoryResponse
 import com.rndkitchen.storyapp.databinding.ActivityMainBinding
 import com.rndkitchen.storyapp.ui.ViewModelFactory
 import com.rndkitchen.storyapp.ui.login.LoginActivity
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                 is Result.Success -> {
                     val stories = response.data
                     val dataStories = stories.map {
-                        DataStories(
+                        StoryResponse(
                             id = it.id,
                             name = it.name,
                             description = it.description,

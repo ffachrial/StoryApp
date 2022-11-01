@@ -8,12 +8,12 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.rndkitchen.storyapp.data.remote.response.DataStories
+import com.rndkitchen.storyapp.data.remote.response.StoryResponse
 import com.rndkitchen.storyapp.databinding.StoryItemBinding
 
-class StoriesAdapter(private val storyList: List<DataStories>): RecyclerView.Adapter<StoriesAdapter.StoriesViewHolder>() {
+class StoriesAdapter(private val storyList: List<StoryResponse>): RecyclerView.Adapter<StoriesAdapter.StoriesViewHolder>() {
     inner class StoriesViewHolder(private val binding: StoryItemBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(story: DataStories) {
+        fun bind(story: StoryResponse) {
             with(binding) {
                 tvName.text = story.name
                 tvDetailDescription.text = story.description
