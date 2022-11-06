@@ -7,16 +7,21 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.rndkitchen.storyapp.data.remote.RegisterBody
 import com.rndkitchen.storyapp.data.remote.Result
 import com.rndkitchen.storyapp.databinding.ActivityRegisterBinding
+import com.rndkitchen.storyapp.ui.ViewModelFactory
 import com.rndkitchen.storyapp.ui.login.LoginActivity
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var activityRegisterBinding: ActivityRegisterBinding
     private val binding get() = activityRegisterBinding
+
+    private val registerViewModel: RegisterViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
+    }
 
     companion object {
         fun start(context: Context) {
@@ -65,8 +70,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun userRegister(regUser: RegisterBody) {
-        val registerViewModel = obtainViewModel(this@RegisterActivity)
-
         registerViewModel.userRegister(regUser).observe(this) { response ->
             when(response) {
                 is Result.Loading -> {
@@ -82,11 +85,6 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun obtainViewModel(activity: AppCompatActivity) : RegisterViewModel {
-        val factory = RegisterViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[RegisterViewModel::class.java]
     }
 
     private fun setCustomButtonEnable() {

@@ -14,6 +14,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.rndkitchen.storyapp.databinding.ActivityCameraBinding
+import com.rndkitchen.storyapp.ui.storyadd.StoryAddActivity
 import com.rndkitchen.storyapp.util.createFile
 
 class CameraActivity : AppCompatActivity() {

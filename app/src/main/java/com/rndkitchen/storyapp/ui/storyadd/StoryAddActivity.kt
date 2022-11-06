@@ -1,4 +1,4 @@
-package com.rndkitchen.storyapp.ui.main
+package com.rndkitchen.storyapp.ui.storyadd
 
 import android.Manifest
 import android.content.Context
@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.rndkitchen.storyapp.data.remote.Result
 import com.rndkitchen.storyapp.databinding.ActivityStoryAddBinding
 import com.rndkitchen.storyapp.ui.ViewModelFactory
+import com.rndkitchen.storyapp.ui.main.CameraActivity
 import com.rndkitchen.storyapp.util.SessionManager
 import com.rndkitchen.storyapp.util.reduceFileImage
 import com.rndkitchen.storyapp.util.uriToFile
@@ -114,9 +115,9 @@ class StoryAddActivity : AppCompatActivity() {
         }
     }
 
-    private fun obtainViewModel(activity: AppCompatActivity) : StoriesViewModel {
+    private fun obtainViewModel(activity: AppCompatActivity) : StoryAddViewModel {
         val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[StoriesViewModel::class.java]
+        return ViewModelProvider(activity, factory)[StoryAddViewModel::class.java]
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {

@@ -1,4 +1,4 @@
-package com.rndkitchen.storyapp.ui.main
+package com.rndkitchen.storyapp.ui.storyadd
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,8 +11,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
-class StoriesViewModel(private val storiesRepository: StoriesRepository) : ViewModel() {
-    fun getStories(token: String) = storiesRepository.getStories(token)
+class StoryAddViewModel(private val storiesRepository: StoriesRepository) : ViewModel() {
 
     fun putStory(token: String, file: MultipartBody.Part, description: RequestBody): LiveData<Result<PutStoryResponse>> {
         val result = MutableLiveData<Result<PutStoryResponse>>()
@@ -23,6 +22,4 @@ class StoriesViewModel(private val storiesRepository: StoriesRepository) : ViewM
         }
         return result
     }
-
-    fun getCompletedStories(token: String, location: Int) = storiesRepository.getStoriesMap(token, location)
 }

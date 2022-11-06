@@ -7,8 +7,8 @@ import com.rndkitchen.storyapp.repository.StoriesRepository
 
 object Injection {
     fun provideRepository(context: Context): StoriesRepository {
-        val storyService = ApiConfig.getApiService()
         val database = StoriesDatabase.getInstance(context)
+        val storyService = ApiConfig.getApiService()
         val storiesDao = database.storiesDao()
         return StoriesRepository.getInstance(storyService, storiesDao)
     }

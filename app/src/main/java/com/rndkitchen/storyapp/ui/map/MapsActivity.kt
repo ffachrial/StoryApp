@@ -1,4 +1,4 @@
-package com.rndkitchen.storyapp.ui.main
+package com.rndkitchen.storyapp.ui.map
 
 import android.content.Context
 import android.content.Intent
@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,6 +27,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
     private var token: String? = null
+
+    private val mapsViewModel: MapsViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
+    }
 
     companion object {
         private const val TAG = "MapsActivity"
@@ -63,9 +67,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun getStoriesMap(token: String) {
-        val storiesViewModel = obtainViewModel(this@MapsActivity)
-
-        storiesViewModel.getCompletedStories(token, 1).observe(this) { response ->
+        mapsViewModel.getCompletedStories("Bearer $token", 1).observe(this) { response ->
             when (response) {
                 is Result.Loading -> {}
                 is Result.Success -> {
@@ -94,6 +96,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
                 is Result.Error -> {}
+                else -> {}
             }
         }
     }
@@ -133,10 +136,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         } catch (exception: Resources.NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", exception)
         }
-    }
-
-    private fun obtainViewModel(activity: AppCompatActivity) : StoriesViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[StoriesViewModel::class.java]
     }
 }

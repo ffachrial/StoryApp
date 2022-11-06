@@ -2,11 +2,9 @@ package com.rndkitchen.storyapp.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class StoriesResponse(
+data class RegisterResponse(
     @SerializedName("error")
     val error: Boolean,
     @SerializedName("message")
-    val message: String,
-    @SerializedName("listStory")
-    val listStory: List<StoryResponse>
+    val message: String
 )

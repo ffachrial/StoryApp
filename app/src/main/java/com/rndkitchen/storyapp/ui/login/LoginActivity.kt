@@ -7,11 +7,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.rndkitchen.storyapp.data.remote.LoginRequest
 import com.rndkitchen.storyapp.data.remote.Result
 import com.rndkitchen.storyapp.databinding.ActivityLoginBinding
+import com.rndkitchen.storyapp.ui.ViewModelFactory
 import com.rndkitchen.storyapp.ui.main.MainActivity
 import com.rndkitchen.storyapp.ui.register.RegisterActivity
 import com.rndkitchen.storyapp.util.SessionManager
@@ -19,6 +20,10 @@ import com.rndkitchen.storyapp.util.SessionManager
 class   LoginActivity : AppCompatActivity() {
     private lateinit var activityLoginBinding: ActivityLoginBinding
     private val binding get() = activityLoginBinding
+
+    private val logUserViewModel: LogUserViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
+    }
 
     companion object {
         fun start(context: Context) {
@@ -71,8 +76,6 @@ class   LoginActivity : AppCompatActivity() {
     }
 
     private fun logInUser(loginRequest: LoginRequest) {
-        val logUserViewModel = obtainViewModel(this@LoginActivity)
-
         logUserViewModel.userLogIn(loginRequest).observe(this) { response ->
             when (response) {
                 is Result.Loading -> {
@@ -122,10 +125,5 @@ class   LoginActivity : AppCompatActivity() {
 
     private fun stopLoading() {
         binding.progressBar.visibility = View.GONE
-    }
-
-    private fun obtainViewModel(activity: AppCompatActivity) : LogUserViewModel {
-        val factory = LogUserViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[LogUserViewModel::class.java]
     }
 }

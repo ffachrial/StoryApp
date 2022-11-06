@@ -15,4 +15,10 @@
     <string name="cd_button_add_story">Button Add Story</string>
     <string name="cd_button_logout">Button LogOut</string>
     <string name="cd_button_map">Button Map</string>
+    <string name="retry">Please Retry</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="story_description">Story Description</string>
+    <string name="upload_story">Upload Story</string>
+    <string name="preview_image">Preview Image</string>
 </resources>

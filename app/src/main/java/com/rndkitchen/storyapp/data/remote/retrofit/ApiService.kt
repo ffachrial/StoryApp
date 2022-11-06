@@ -4,13 +4,20 @@ import com.rndkitchen.storyapp.data.remote.LoginRequest
 import com.rndkitchen.storyapp.data.remote.RegisterBody
 import com.rndkitchen.storyapp.data.remote.response.LoginResponse
 import com.rndkitchen.storyapp.data.remote.response.PutStoryResponse
+import com.rndkitchen.storyapp.data.remote.response.RegisterResponse
 import com.rndkitchen.storyapp.data.remote.response.StoriesResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Response
 import retrofit2.http.*
 
 interface  ApiService {
+    @GET("stories")
+    suspend fun getStoriesPaging(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int? = null,
+        @Query("size") size: Int? = null
+    ): StoriesResponse
+
     @GET("stories")
     suspend fun getStories(
         @Header("Authorization") token: String,
@@ -22,7 +29,7 @@ interface  ApiService {
     @POST("register")
     suspend fun userRegister(
         @Body registerBody: RegisterBody
-    ): Response<StoriesResponse>
+    ): RegisterResponse
 
     @Multipart
     @POST("stories")

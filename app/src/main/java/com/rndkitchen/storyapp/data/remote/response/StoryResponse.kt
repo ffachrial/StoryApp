@@ -1,23 +1,27 @@
 package com.rndkitchen.storyapp.data.remote.response
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
+@Entity(tableName = "user_stories")
 @Parcelize
 data class StoryResponse(
-    @SerializedName("id")
+    @PrimaryKey
+    @field:SerializedName("id")
     val id: String,
-    @SerializedName("name")
+    @field:SerializedName("name")
     val name: String,
-    @SerializedName("description")
+    @field:SerializedName("description")
     val description: String,
-    @SerializedName("photoUrl")
+    @field:SerializedName("photoUrl")
     val photoUrl: String,
-    @SerializedName("lat")
+    @field:SerializedName("lat")
     val lat: Double,
-    @SerializedName("lon")
+    @field:SerializedName("lon")
     val lon: Double,
-    @SerializedName("createdAt")
+    @field:SerializedName("createdAt")
     val createdAt: String
 ) : Parcelable

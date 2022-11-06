@@ -26,7 +26,7 @@
             android:value="AIzaSyA8jI3IP-viaOePTKkVwVTntGNEbVdhUAM" />
 
         <activity
-            android:name=".ui.main.MapsActivity"
+            android:name=".ui.map.MapsActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.CameraActivity"
@@ -36,7 +36,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.main.StoryAddActivity"
+            android:name=".ui.storyadd.StoryAddActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

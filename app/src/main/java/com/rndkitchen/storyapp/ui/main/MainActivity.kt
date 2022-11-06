@@ -4,21 +4,25 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rndkitchen.storyapp.data.remote.Result
-import com.rndkitchen.storyapp.data.remote.response.StoryResponse
+import com.rndkitchen.storyapp.adapter.LoadingStateAdapter
+import com.rndkitchen.storyapp.adapter.StoriesListAdapter
 import com.rndkitchen.storyapp.databinding.ActivityMainBinding
 import com.rndkitchen.storyapp.ui.ViewModelFactory
 import com.rndkitchen.storyapp.ui.login.LoginActivity
+import com.rndkitchen.storyapp.ui.map.MapsActivity
+import com.rndkitchen.storyapp.ui.storyadd.StoryAddActivity
 import com.rndkitchen.storyapp.util.SessionManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var activityMainBinding: ActivityMainBinding
     private val binding get() = activityMainBinding
     private var token: String? = null
+
+    private val pagingViewModel: PagingViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
+    }
 
     companion object {
         fun start(context: Context) {
@@ -50,50 +54,26 @@ class MainActivity : AppCompatActivity() {
             StoryAddActivity.start(this)
         }
 
-        getStories("Bearer $token")
-        binding.rvStories.layoutManager = LinearLayoutManager(this)
+        getStoriesPaging("Bearer $token")
     }
 
-    private fun getStories(token: String) {
-        val storiesViewModel = obtainViewModel(this@MainActivity)
+    private fun getStoriesPaging(token: String) {
+        val adapter = StoriesListAdapter()
 
-        storiesViewModel.getStories(token).observe(this) { response ->
-            when (response) {
-                is Result.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                }
-                is Result.Success -> {
-                    val stories = response.data
-                    val dataStories = stories.map {
-                        StoryResponse(
-                            id = it.id,
-                            name = it.name,
-                            description = it.description,
-                            photoUrl = it.photoUrl,
-                            lat = it.lat,
-                            lon = it.lon,
-                            createdAt = it.createdAt
-                        )
-                    }
-                    val adapter = StoriesAdapter(dataStories)
-                    binding.rvStories.adapter = adapter
-                    binding.progressBar.visibility = View.GONE
-                }
-                is Result.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    Toast.makeText(this, response.error, Toast.LENGTH_SHORT).show()
-                }
+        binding.rvStories.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
             }
-        }
-    }
+        )
+        binding.rvStories.layoutManager = LinearLayoutManager(this)
 
-    private fun obtainViewModel(activity: AppCompatActivity) : StoriesViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[StoriesViewModel::class.java]
+        pagingViewModel.getStoriesPaging(token).observe(this) {
+            adapter.submitData(lifecycle, it)
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        getStories("Bearer $token")
+        getStoriesPaging("Bearer $token")
     }
 }
