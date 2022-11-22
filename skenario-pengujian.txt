@@ -1,0 +1,25 @@
+MapsViewModel
+Ketika berhasil memuat data Stories
+ * Memastikan mengembalikan Result.Success
+ * Memastikan data tidak null.
+ * Memastikan jumlah data sesuai dengan yang diharapkan
+
+PagingViewModel
+Ketika berhasil memuat data Stories
+ * Memastikan data tidak null.
+ * Memastikan jumlah data sesuai dengan yang diharapkan
+
+LogUserViewModel
+Ketika berhasil Login
+ * Memastikan data tidak null.
+ * Memastikan mengembalikan Result.Success
+
+RegisterViewModel
+Ketika berhasil Register
+ * Memastikan data tidak null.
+ * Memastikan mengembalikan Result.Success
+
+StoryAddViewModel
+Ketika berhasil Upload Gambar
+ * Memastikan data tidak null
+ * Memastikan mengembalikan Result.Success

@@ -5,10 +5,39 @@ import com.rndkitchen.storyapp.data.remote.LoginRequest
 import com.rndkitchen.storyapp.data.remote.RegisterBody
 import com.rndkitchen.storyapp.data.remote.response.*
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
 
 object DataDummy {
+    fun generateDummyUploadImg(): MultipartBody.Part {
+        val storyUpload: File = createTempFile()
+        val inputStream: InputStream? =
+            javaClass.classLoader?.getResourceAsStream("anak_kucing_munchkin.jpg")
+        val outputStream: OutputStream = FileOutputStream(storyUpload)
+        val buf = ByteArray(1024)
+        var len: Int
+        if (inputStream != null) {
+            while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+        }
+        outputStream.close()
+        inputStream?.close()
+
+        val requestImgFile = storyUpload.asRequestBody("image/jpeg".toMediaTypeOrNull())
+
+        return MultipartBody.Part.createFormData(
+            "photo",
+            storyUpload.name,
+            requestImgFile
+        )
+    }
+
     fun generateDummyUploadDesc(): RequestBody {
         val imgDesc = "Ini gambar keren"
         return imgDesc.toRequestBody("text/plain".toMediaType())

@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.flowOn
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
-class StoriesRepository private constructor(
+class StoriesRepository constructor(
     private val storiesService: ApiService,
     private val storiesDao: StoriesDao
     ){
@@ -46,7 +46,7 @@ class StoriesRepository private constructor(
             storiesDao.deleteStories()
             storiesDao.insertStory(listStories)
         } catch (e: Exception) {
-            Log.d("StoriesRepository", "getStories: ${e.message.toString()} ")
+            //Log.d("StoriesRepository", "getStories: ${e.message.toString()} ")
             emit(Result.Error(e.message.toString()))
         }
         val localData: LiveData<Result<List<StoriesEntity>>> =
